@@ -8,7 +8,12 @@ export const WordNotes = () => {
     <div className='flex-col'>
       <ul>
         {Words.map((item) => (
-          <Note key={item.id} name={item.name} words={item.words}></Note>
+          <Note
+            key={item.id}
+            note={item}
+            name={item.name}
+            words={item.words}
+          ></Note>
         ))}
       </ul>
       <div className='mx-2 flex justify-center rounded-xl border-4 border-sky-700'>

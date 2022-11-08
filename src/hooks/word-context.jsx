@@ -21,8 +21,8 @@ const SampleWords = [
     ],
   },
   {
-    id: 3,
-    name: '단어장3',
+    id: 5,
+    name: '단어장5',
     words: [
       { id: 1, en: 'vocabulary', ko: '어휘' },
       { id: 2, en: 'phrase', ko: '구문' },
@@ -44,8 +44,12 @@ const WordContext = createContext();
 export const WordContextProvider = ({ children }) => {
   const [Words, setWord] = useState(SampleWords);
 
+  const [checkedItems, setCheckedItems] = useState(new Set());
+
   return (
-    <WordContext.Provider value={{ Words }}>{children}</WordContext.Provider>
+    <WordContext.Provider value={{ Words, checkedItems }}>
+      {children}
+    </WordContext.Provider>
   );
 };
 
