@@ -39,6 +39,61 @@ const SampleWords = [
   },
 ];
 
+const reducer = (data, action) => {
+  let newData;
+  switch (action.type) {
+    case 'add':
+      newData = {
+        ...data,
+        books: [...data.books, { id: 0, title: '', marks: [] }],
+      };
+      break;
+
+    case 'save':
+      newData = {
+        ...data,
+        books: [
+          ...data.books.filter((_book) => _book.id !== action.payload.id),
+          action.payload,
+        ],
+      };
+      break;
+
+    case 'remove':
+      newData = {
+        ...data,
+        books: [...data.books.filter((_book) => _book.id !== action.payload)],
+      };
+      break;
+
+    case 'add-mark':
+      newData = {
+        ...data,
+      };
+      break;
+
+    // case 'save-mark':
+    //   newData = {
+    //     ...data,
+    //     books: [
+    //       ...data.books.filter((_book) => _book.id !== action.payload.id),
+    //       action.payload,
+    //     ],
+    //   };
+    //   break;
+
+    case 'remove-mark':
+      newData = {
+        ...data,
+        books: [...data.books.filter((_book) => _book.id !== action.payload)],
+      };
+      break;
+
+    default:
+      throw new Error('Not Defined Action!!');
+  }
+};
+
 const WordContext = createContext();
 
 export const WordContextProvider = ({ children }) => {
