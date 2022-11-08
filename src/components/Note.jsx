@@ -1,19 +1,26 @@
 import { Word } from './Word';
-import { TrashIcon, PencilIcon, PlusIcon } from '@heroicons/react/24/outline';
-import { useEffect, useReducer } from 'react';
+import {
+  TrashIcon,
+  PencilIcon,
+  PlusIcon,
+  XMarkIcon,
+  CheckIcon,
+} from '@heroicons/react/24/outline';
+import { useRef, useEffect, useReducer } from 'react';
 import { useWord } from '../hooks/word-context';
 
 export const Note = ({ note, name, words }) => {
   const [isChecked, toggleChecked] = useReducer((pre) => !pre, false);
+  const [isEditing, toggleIsEditing] = useReducer((pre) => !pre, false);
+  const newNoteName = useRef();
   const { checkedItems } = useWord();
+
   useEffect(() => {
     if (isChecked) {
       checkedItems.add(note.id);
     } else if (!isChecked && checkedItems.has(note.id)) {
       checkedItems.delete(note.id);
     }
-
-    console.log(checkedItems);
   });
 
   return (
@@ -25,14 +32,35 @@ export const Note = ({ note, name, words }) => {
             type='checkbox'
             onChange={() => toggleChecked()}
           />
-          <h1 className='text-3xl font-bold text-sky-700'>{name}</h1>
-          <button className='mx-2 w-6 text-sky-700'>
-            <PencilIcon />
+          {isEditing ? (
+            <input
+              className='border-2 text-3xl font-bold text-sky-700'
+              type='text'
+              placeholder='새 제목'
+              ref={newNoteName}
+            ></input>
+          ) : (
+            <h1 className='text-3xl font-bold text-sky-700'>{name}</h1>
+          )}
+        </div>
+        <div className='flex items-center'>
+          {isEditing ? (
+            <button className='mx-2 w-6 text-sky-700 hover:w-8'>
+              <CheckIcon />
+            </button>
+          ) : (
+            <></>
+          )}
+          <button
+            onClick={() => toggleIsEditing()}
+            className='mx-2 w-6 text-sky-700 hover:w-8'
+          >
+            {isEditing ? <XMarkIcon /> : <PencilIcon />}
+          </button>
+          <button className='mx-2 w-6 text-sky-700 hover:w-8'>
+            <TrashIcon />
           </button>
         </div>
-        <button className='mx-2 w-6 text-sky-700'>
-          <TrashIcon />
-        </button>
       </div>
       <hr className='my-2' />
       <div className='flex'>
