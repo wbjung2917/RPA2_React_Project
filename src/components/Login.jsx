@@ -30,7 +30,7 @@ export const Login = () => {
           type='password'
           ref={userPwdRef}
         />
-        <button className='h-10 w-24 rounded-xl border-2 border-sky-700 bg-sky-200 p-1 font-bold text-sky-700'>
+        <button className='min-h-10 w-24 rounded-xl border-2 border-sky-700 bg-sky-200 p-1 font-bold text-sky-700'>
           Log In
         </button>
       </form>

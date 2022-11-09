@@ -10,3 +10,15 @@ input[type="file"]::file-selector-button:hover {
   background-color: #0369a1;
   transition: 0.2s;
 }
+
+.scrollbox::-webkit-scrollbar {
+  height: 5px;
+}
+.scrollbox::-webkit-scrollbar-thumb {
+  background-color: #0369a1;
+  border-radius: 5px;
+}
+.scrollbox::-webkit-scrollbar-track {
+  background-color: #bae6fd;
+  border-radius: 5px;
+}

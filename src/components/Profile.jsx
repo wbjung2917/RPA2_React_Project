@@ -8,7 +8,7 @@ export const Profile = () => {
         {user.userInfo.userid} 님의 단어장
       </h1>
       <button
-        className='h-10 w-24 rounded-xl border-2 border-sky-700 bg-sky-200 p-1 font-bold text-sky-700'
+        className='min-h-10 w-24 rounded-xl border-2 border-sky-700 bg-sky-200 p-1 font-bold text-sky-700'
         onClick={logout}
       >
         Log Out

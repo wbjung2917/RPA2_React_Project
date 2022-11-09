@@ -29,7 +29,7 @@ export const Note = ({ note, name, words }) => {
 
   return (
     <li className='m-2 rounded-xl border-4 border-sky-700 p-2 even:bg-sky-100'>
-      <div className='flex items-center justify-between'>
+      <div className='scrollbox flex items-center justify-between overflow-x-auto py-1'>
         <div className='flex items-center'>
           <input
             className='mx-2 h-8 w-8 appearance-none rounded-full border-4 checked:border-sky-700 checked:bg-sky-200'
@@ -80,7 +80,7 @@ export const Note = ({ note, name, words }) => {
               )}
             </div>
           ) : (
-            <h1 className='text-3xl font-bold text-sky-700'>{name}</h1>
+            <h1 className='my-1 text-3xl font-bold text-sky-700'>{name}</h1>
           )}
         </div>
         <div className='flex items-center'>
@@ -121,7 +121,7 @@ export const Note = ({ note, name, words }) => {
         </div>
       </div>
       <hr className='my-2' />
-      <div className='scrollbar-thumb-blue flex overflow-x-auto scroll-smooth '>
+      <div className='scrollbox flex overflow-x-auto py-1'>
         {words.map((item) => (
           <Word
             key={item.id}

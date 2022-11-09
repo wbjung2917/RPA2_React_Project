@@ -19,13 +19,7 @@ module.exports = {
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
-  plugins: [
-    'react',
-    'react-hooks',
-    'jsx-a11y',
-    'prettier',
-    require('tailwind-scrollbar'),
-  ],
+  plugins: ['react', 'react-hooks', 'jsx-a11y', 'prettier'],
   rules: {
     'react/react-in-jsx-scope': 'off',
     'react/jsx-uses-react': 'off',
