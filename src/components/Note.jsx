@@ -6,13 +6,17 @@ import {
   XMarkIcon,
   CheckIcon,
 } from '@heroicons/react/24/outline';
-import { useRef, useEffect, useReducer } from 'react';
+import { useRef, useEffect, useReducer, useState } from 'react';
 import { useWord } from '../hooks/word-context';
+import './Note.css';
 
 export const Note = ({ note, name, words }) => {
   const [isChecked, toggleChecked] = useReducer((pre) => !pre, false);
+  const [isUseFile, toggleIsUseFile] = useReducer((pre) => !pre, false);
   const [isEditing, toggleIsEditing] = useReducer((pre) => !pre, false);
+  const [newNoteWords, setNewNoteWords] = useState([]);
   const newNoteName = useRef();
+  const fileName = useRef();
   const { checkedItems, saveNote, removeNote, addWord } = useWord();
 
   useEffect(() => {
@@ -33,12 +37,48 @@ export const Note = ({ note, name, words }) => {
             onChange={() => toggleChecked()}
           />
           {isEditing || note.id === 0 ? (
-            <input
-              className='w-64 border-2 text-3xl font-bold text-sky-700'
-              type='text'
-              placeholder='새 제목'
-              ref={newNoteName}
-            ></input>
+            <div className='flex items-center'>
+              <input
+                className='w-64 border-2 text-3xl font-bold text-sky-700'
+                type='text'
+                placeholder='새 제목'
+                ref={newNoteName}
+              ></input>
+              <input
+                className='mx-4 h-4 w-4 appearance-none bg-slate-200 checked:bg-sky-700'
+                type='checkbox'
+                onChange={() => toggleIsUseFile()}
+              />
+
+              {isUseFile ? (
+                <>
+                  <input
+                    type='file'
+                    accept='.xls,.xlsx'
+                    ref={fileName}
+                    onChange={(e) => {
+                      setNewNoteWords([]);
+                      const input = e.target;
+                      const reader = new FileReader();
+                      reader.readAsBinaryString(input.files[0]);
+                      reader.onload = function () {
+                        const data = reader.result;
+                        const workBook = XLSX.read(data, { type: 'binary' });
+                        workBook.SheetNames.forEach((sheetName) => {
+                          console.log('SheetName: ' + sheetName);
+                          const rows = XLSX.utils.sheet_to_json(
+                            workBook.Sheets[sheetName]
+                          );
+                          setNewNoteWords([...newNoteWords, ...rows]);
+                        });
+                      };
+                    }}
+                  />
+                </>
+              ) : (
+                <></>
+              )}
+            </div>
           ) : (
             <h1 className='text-3xl font-bold text-sky-700'>{name}</h1>
           )}
@@ -50,7 +90,7 @@ export const Note = ({ note, name, words }) => {
                 if (newNoteName.current.value === '') {
                   alert('새 제목이 입력되지 않았습니다.');
                 } else {
-                  saveNote(note, newNoteName.current.value);
+                  saveNote(note, newNoteName.current.value, newNoteWords);
                   toggleIsEditing();
                 }
               }}
@@ -81,7 +121,7 @@ export const Note = ({ note, name, words }) => {
         </div>
       </div>
       <hr className='my-2' />
-      <div className='flex'>
+      <div className='scrollbar-thumb-blue flex overflow-x-auto scroll-smooth '>
         {words.map((item) => (
           <Word
             key={item.id}
@@ -93,7 +133,7 @@ export const Note = ({ note, name, words }) => {
         ))}
         <button
           onClick={() => addWord(note)}
-          className='mx-2 w-20 rounded-xl border-2 border-sky-700 px-5 font-bold text-sky-700'
+          className='mx-2 w-20 shrink-0 rounded-xl border-2 border-sky-700 px-5 font-bold text-sky-700'
         >
           <PlusIcon />
         </button>

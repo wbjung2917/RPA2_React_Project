@@ -12,7 +12,7 @@ export const Word = ({ note, word, en, ko }) => {
   const newWordKo = useRef();
   return (
     <>
-      <div className='mx-2 flex-col text-center'>
+      <div className='mx-2 shrink-0 flex-col rounded-xl border-2 p-2 text-center'>
         {word.id === 0 ? (
           <>
             <div className='flex'>

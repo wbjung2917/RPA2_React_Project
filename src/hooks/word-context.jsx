@@ -52,7 +52,6 @@ const reducer = (data, action) => {
       break;
 
     case 'save':
-      console.log(data.notes);
       newData = {
         ...data,
       };
@@ -101,11 +100,23 @@ export const WordContextProvider = ({ children }) => {
     dispatch({ type: 'add' });
   };
 
-  const saveNote = (note, noteName) => {
+  const saveNote = (note, noteName, noteWords) => {
     if (!note.id) {
       note.id = Math.max(...data.notes.map((note) => note.id)) + 1;
     }
     note.name = noteName;
+    for (const word of noteWords) {
+      let tempId;
+      note.words.length === 0
+        ? (tempId = word.id)
+        : (tempId = Math.max(...note.words.map((word) => word.id)) + 1);
+
+      note.words.push({
+        id: tempId,
+        en: word.en,
+        ko: word.ko,
+      });
+    }
     dispatch({ type: 'save', payload: note });
   };
 
