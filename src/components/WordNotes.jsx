@@ -3,11 +3,11 @@ import { Note } from './Note';
 import { PlusIcon } from '@heroicons/react/24/outline';
 
 export const WordNotes = () => {
-  const { Words } = useWord();
+  const { data, addNote } = useWord();
   return (
     <div className='flex-col'>
       <ul>
-        {Words.map((item) => (
+        {data.notes.map((item) => (
           <Note
             key={item.id}
             note={item}
@@ -17,7 +17,10 @@ export const WordNotes = () => {
         ))}
       </ul>
       <div className='mx-2 flex justify-center rounded-xl border-4 border-sky-700'>
-        <button className='flex w-full justify-center text-sky-700'>
+        <button
+          onClick={() => addNote()}
+          className='flex w-full justify-center text-sky-700'
+        >
           <div className='w-24'>
             <PlusIcon />
           </div>

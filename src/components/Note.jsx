@@ -13,7 +13,7 @@ export const Note = ({ note, name, words }) => {
   const [isChecked, toggleChecked] = useReducer((pre) => !pre, false);
   const [isEditing, toggleIsEditing] = useReducer((pre) => !pre, false);
   const newNoteName = useRef();
-  const { checkedItems } = useWord();
+  const { checkedItems, saveNote, removeNote, addWord } = useWord();
 
   useEffect(() => {
     if (isChecked) {
@@ -32,9 +32,9 @@ export const Note = ({ note, name, words }) => {
             type='checkbox'
             onChange={() => toggleChecked()}
           />
-          {isEditing ? (
+          {isEditing || note.id === 0 ? (
             <input
-              className='border-2 text-3xl font-bold text-sky-700'
+              className='w-64 border-2 text-3xl font-bold text-sky-700'
               type='text'
               placeholder='새 제목'
               ref={newNoteName}
@@ -44,20 +44,38 @@ export const Note = ({ note, name, words }) => {
           )}
         </div>
         <div className='flex items-center'>
-          {isEditing ? (
-            <button className='mx-2 w-6 text-sky-700 hover:w-8'>
+          {isEditing || note.id === 0 ? (
+            <button
+              onClick={() => {
+                if (newNoteName.current.value === '') {
+                  alert('새 제목이 입력되지 않았습니다.');
+                } else {
+                  saveNote(note, newNoteName.current.value);
+                  toggleIsEditing();
+                }
+              }}
+              className='mx-2 w-6 text-sky-700 hover:w-8'
+            >
               <CheckIcon />
             </button>
           ) : (
             <></>
           )}
           <button
-            onClick={() => toggleIsEditing()}
+            onClick={() => {
+              if (note.id === 0) {
+                removeNote(note.id);
+              }
+              toggleIsEditing();
+            }}
             className='mx-2 w-6 text-sky-700 hover:w-8'
           >
-            {isEditing ? <XMarkIcon /> : <PencilIcon />}
+            {isEditing || note.id === 0 ? <XMarkIcon /> : <PencilIcon />}
           </button>
-          <button className='mx-2 w-6 text-sky-700 hover:w-8'>
+          <button
+            onClick={() => removeNote(note.id)}
+            className='mx-2 w-6 text-sky-700 hover:w-8'
+          >
             <TrashIcon />
           </button>
         </div>
@@ -65,9 +83,18 @@ export const Note = ({ note, name, words }) => {
       <hr className='my-2' />
       <div className='flex'>
         {words.map((item) => (
-          <Word key={item.id} en={item.en} ko={item.ko}></Word>
+          <Word
+            key={item.id}
+            note={note}
+            word={item}
+            en={item.en}
+            ko={item.ko}
+          ></Word>
         ))}
-        <button className='mx-2 w-20 rounded-xl border-2 border-sky-700 px-5 font-bold text-sky-700'>
+        <button
+          onClick={() => addWord(note)}
+          className='mx-2 w-20 rounded-xl border-2 border-sky-700 px-5 font-bold text-sky-700'
+        >
           <PlusIcon />
         </button>
       </div>
