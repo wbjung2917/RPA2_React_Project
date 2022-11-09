@@ -1,49 +1,124 @@
+import { useState } from 'react';
 import { useWord } from '../hooks/word-context';
 import { TestItem } from './TestItem';
 
 export const Test = ({ isAll }) => {
   const { data, checkedItems } = useWord();
+
   const wordsData = data.notes.filter((note) =>
     isAll ? note : checkedItems.has(note.id)
   );
 
-  const answerList = data.notes.reduce(
-    (pre, cur) => [...pre, ...cur.words.map((word) => word.ko)],
-    []
+  const testingData = wordsData.reduce((pre, cur) => {
+    return [...pre, ...cur.words.map((word) => [word.en, word.ko])];
+  }, []);
+
+  const numOfQuestions = testingData.length > 20 ? 20 : testingData.length;
+
+  const [userAnswers, setUserAnswers] = useState(
+    new Array(numOfQuestions).fill(NaN)
   );
 
-  const testingData = wordsData.reduce((pre, cur) => {
-    const correctAnswer = Math.floor(Math.random() * 4);
-    const randAnswers = [];
-    while (randAnswers.length < 3) {
-      const tempAns = answerList[Math.floor(Math.random() * answerList.length)];
-      if (!randAnswers.includes(tempAns)) randAnswers.push(tempAns);
+  const getRandNumberList = (maxNumber, listLength) => {
+    const randList = [];
+    while (randList.length < listLength) {
+      const tempNum = Math.floor(Math.random() * maxNumber);
+      if (!randList.includes(tempNum)) {
+        randList.push(tempNum);
+      }
     }
 
-    return [
-      ...pre,
-      ...cur.words.map((word) => [
-        word.en,
-        word.ko,
-        correctAnswer,
-        randAnswers,
-      ]),
-    ];
-  }, []);
-  console.log(testingData);
+    return randList;
+  };
 
-  // console.log(checkedWords);
+  const testSample = getRandNumberList(testingData.length, numOfQuestions).map(
+    (idx) => testingData[idx]
+  );
+
+  const answerList = getRandNumberList(50000, numOfQuestions).map(
+    (ans) => ans % 4
+  );
+
+  const allAnswers = data.notes.reduce((pre, cur) => {
+    return [...pre, ...cur.words.map((word) => word.ko)];
+  }, []);
+
+  const getWrongAnswers = (answers, correctAns) => {
+    const avoidIdx = answers.indexOf(correctAns);
+    const randList = [];
+    while (randList.length < 3) {
+      const tempNum = Math.floor(Math.random() * answers.length);
+      if (!randList.includes(tempNum) && tempNum !== avoidIdx) {
+        randList.push(tempNum);
+      }
+    }
+    const wrongAnsList = randList.map((idx) => answers[idx]);
+    return wrongAnsList;
+  };
+
+  const wrongAnswers = testSample.map((item) =>
+    getWrongAnswers(allAnswers, item[1])
+  );
+
+  const makeTestItems = (testSample, answerList, wrongAnswers) => {
+    const testItems = [];
+    for (let i = 0; i < testSample.length; i++) {
+      testItems.push({
+        id: i,
+        en: testSample[i][0],
+        answer: answerList[i],
+        options: [
+          ...wrongAnswers[i].slice(0, answerList[i]),
+          testSample[i][1],
+          ...wrongAnswers[i].slice(answerList[i]),
+        ],
+      });
+    }
+    return testItems;
+  };
+
+  const testItems = makeTestItems(testSample, answerList, wrongAnswers);
+  const [isWrongList, setIsWrongList] = useState(
+    new Array(numOfQuestions).fill(false)
+  );
+
   return (
-    <div className='grid grid-cols-2'>
-      {checkedItems.size === 0 && !isAll ? (
-        <h1>체크된 데이터가 없습니다.</h1>
-      ) : (
-        <>
-          {testingData.map((data) => (
-            <TestItem key={testingData.indexOf(data)}></TestItem>
-          ))}
-        </>
-      )}
-    </div>
+    <>
+      <div className='grid h-[80vh] w-full grid-cols-2 overflow-y-auto'>
+        {checkedItems.size === 0 && !isAll ? (
+          <h1>체크된 데이터가 없습니다.</h1>
+        ) : (
+          <>
+            {testItems.map((data) => (
+              <TestItem
+                key={data.id}
+                userAnswers={userAnswers}
+                questionData={data}
+              ></TestItem>
+            ))}
+          </>
+        )}
+      </div>
+      <button
+        onClick={() => {
+          if (userAnswers.includes(NaN)) {
+            alert('답안을 덜 작성 했습니다.');
+          } else {
+            const WrongNumbers = [];
+            for (let i = 0; i < numOfQuestions; i++) {
+              if (answerList[i] !== userAnswers[i]) {
+                WrongNumbers.push(i + 1);
+              }
+            }
+            WrongNumbers.length === 0
+              ? alert('채점결과 모두 정답입니다.')
+              : alert(`채점결과 ${WrongNumbers}번 오답입니다.`);
+          }
+        }}
+        className='h-30 mx-2 basis-full rounded-xl border-4 border-sky-700 bg-sky-200 p-2 text-4xl font-bold text-sky-700'
+      >
+        채점하기
+      </button>
+    </>
   );
 };
