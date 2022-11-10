@@ -48,13 +48,13 @@ export const Word = ({ note, word, en, ko }) => {
                       alert('어휘와 뜻이 입력되지 않았습니다.');
                     }
                   }}
-                  className='mb-1 mr-1 w-7 rounded-full border-2 border-sky-700 p-1 text-sky-700 hover:bg-sky-700 hover:text-slate-100'
+                  className='mb-1 mr-1 w-7 rounded-full border-2 border-blue-500 p-1 text-blue-500 hover:bg-blue-500 hover:text-slate-100'
                 >
                   <PencilIcon />
                 </button>
                 <button
                   onClick={() => removeWord(note, word.id)}
-                  className='w-7 rounded-full border-2 border-sky-700 p-1 text-sky-700 hover:bg-sky-700 hover:text-slate-100'
+                  className='w-7 rounded-full border-2 border-blue-500 p-1 text-blue-500 hover:bg-blue-500 hover:text-slate-100'
                 >
                   <XMarkIcon />
                 </button>
@@ -63,9 +63,9 @@ export const Word = ({ note, word, en, ko }) => {
           </>
         ) : (
           <>
-            <h1 className='text-xl font-bold text-sky-500'>{en}</h1>
+            <h1 className='text-xl font-bold text-indigo-500'>{en}</h1>
             <div className='flex items-center justify-center'>
-              <h1 className='mr-2 text-lg font-bold text-sky-700'>{ko}</h1>
+              <h1 className='mr-2 text-lg font-bold text-blue-500'>{ko}</h1>
               <button
                 onClick={() => removeWord(note, word.id)}
                 className='w-6 text-rose-500'

@@ -28,24 +28,25 @@ export const Note = ({ note, name, words }) => {
   });
 
   return (
-    <li className='m-2 rounded-xl border-4 border-sky-700 p-2 even:bg-sky-100'>
+    <li className='m-2 rounded-xl border-4 border-blue-500 p-2'>
       <div className='scrollbox flex items-center justify-between overflow-x-auto py-1'>
         <div className='flex items-center'>
           <input
-            className='mx-2 h-8 w-8 appearance-none rounded-full border-4 checked:border-sky-700 checked:bg-sky-200'
+            className='mx-2 h-8 w-8 appearance-none rounded-full border-4 checked:border-blue-500 checked:bg-sky-200'
             type='checkbox'
             onChange={() => toggleChecked()}
           />
           {isEditing || note.id === 0 ? (
-            <div className='flex items-center'>
+            <div className='flex items-center '>
               <input
-                className='w-64 border-2 text-3xl font-bold text-sky-700'
+                className='w-64
+ border-2 font-Jua text-3xl text-blue-500'
                 type='text'
                 placeholder='새 제목'
                 ref={newNoteName}
               ></input>
               <input
-                className='mx-4 h-4 w-4 appearance-none bg-slate-200 checked:bg-sky-700'
+                className='mx-4 h-4 w-4 appearance-none bg-slate-200 checked:bg-blue-500'
                 type='checkbox'
                 onChange={() => toggleIsUseFile()}
               />
@@ -80,7 +81,7 @@ export const Note = ({ note, name, words }) => {
               )}
             </div>
           ) : (
-            <h1 className='my-1 text-3xl font-bold text-sky-700'>{name}</h1>
+            <h1 className='my-1 font-Jua text-3xl text-blue-500'>{name}</h1>
           )}
         </div>
         <div className='flex items-center'>
@@ -94,7 +95,7 @@ export const Note = ({ note, name, words }) => {
                   toggleIsEditing();
                 }
               }}
-              className='mx-2 w-6 text-sky-700 hover:w-8'
+              className='mx-2 w-6 text-green-700 hover:w-8'
             >
               <CheckIcon />
             </button>
@@ -108,13 +109,13 @@ export const Note = ({ note, name, words }) => {
               }
               toggleIsEditing();
             }}
-            className='mx-2 w-6 text-sky-700 hover:w-8'
+            className='mx-2 w-6 text-blue-500 hover:w-8'
           >
             {isEditing || note.id === 0 ? <XMarkIcon /> : <PencilIcon />}
           </button>
           <button
             onClick={() => removeNote(note.id)}
-            className='mx-2 w-6 text-sky-700 hover:w-8'
+            className='mx-2 w-6 text-rose-700 hover:w-8'
           >
             <TrashIcon />
           </button>
@@ -137,7 +138,7 @@ export const Note = ({ note, name, words }) => {
               ? alert('빈 단어를 두 개이상 만들 수 없습니다.')
               : addWord(note);
           }}
-          className='mx-2 w-20 shrink-0 rounded-xl border-2 border-sky-700 px-5 font-bold text-sky-700'
+          className='mx-2 w-20 shrink-0 rounded-xl border-2 border-blue-500 px-5 font-bold text-blue-500'
         >
           <PlusIcon />
         </button>

@@ -86,7 +86,7 @@ export const Test = ({ isAll }) => {
     <>
       {checkedItems.size === 0 && !isAll ? (
         <div className='flex h-[50vh] w-full items-center justify-center'>
-          <h1 className='text-4xl font-bold text-sky-700'>
+          <h1 className='text-4xl font-bold text-blue-500'>
             체크된 데이터가 없습니다.
           </h1>
         </div>
@@ -117,7 +117,7 @@ export const Test = ({ isAll }) => {
               : alert(`채점결과 ${WrongNumbers}번 오답입니다.`);
           }
         }}
-        className='h-30 mx-2 basis-full rounded-xl border-4 border-sky-700 bg-sky-200 p-2 text-4xl font-bold text-sky-700'
+        className='h-30 mx-2 basis-full rounded-xl bg-gradient-to-b from-blue-400 via-blue-500 to-indigo-700 p-3 font-Jua text-4xl text-white'
       >
         채점하기
       </button>

@@ -14,23 +14,29 @@ export const Login = () => {
           login(userIdRef.current.value, userPwdRef.current.value);
         }}
       >
-        <label className='text-2xl font-bold text-sky-700' htmlFor='user-id'>
+        <label
+          className='font-Jua text-2xl font-bold text-indigo-700'
+          htmlFor='user-id'
+        >
           ID
         </label>
         <input
-          className='m-2 h-10 rounded-xl border-2 border-sky-700 p-1'
+          className='m-2 h-10 rounded-xl border-2 border-blue-400 p-1 font-Jua text-indigo-700'
           type='text'
           ref={userIdRef}
         />
-        <label className='text-2xl font-bold text-sky-700' htmlFor='user-pwd'>
+        <label
+          className='font-Jua text-2xl font-bold text-indigo-700'
+          htmlFor='user-pwd'
+        >
           PW
         </label>
         <input
-          className='m-2 h-10 rounded-xl border-2 border-sky-700 p-1'
+          className='m-2 h-10 rounded-xl border-2 border-blue-400 p-1'
           type='password'
           ref={userPwdRef}
         />
-        <button className='min-h-10 w-24 rounded-xl border-2 border-sky-700 bg-sky-200 p-1 font-bold text-sky-700'>
+        <button className='min-h-10 w-24 rounded-xl bg-gradient-to-b from-blue-400 via-blue-500 to-indigo-700 p-2 text-xl font-bold text-white'>
           Log In
         </button>
       </form>

@@ -19,7 +19,7 @@ function App() {
           <>
             <div className='flex'>
               <button
-                className='h-30 mx-2 basis-full rounded-xl border-4 border-sky-700 bg-sky-200 p-2 text-4xl font-bold text-sky-700'
+                className='font-Jua h-30 mx-2 basis-full rounded-xl bg-gradient-to-b from-blue-400 via-blue-500 to-indigo-700 p-3 text-4xl text-white'
                 onClick={() => {
                   toggleIsTesting();
                   setIsAll(false);
@@ -35,7 +35,7 @@ function App() {
             <div className='flex'>
               <button
                 onClick={() => toggleIsTesting()}
-                className='h-30 mx-2 basis-1/2 rounded-xl border-4 border-sky-700 bg-sky-200 p-2 text-4xl font-bold text-sky-700'
+                className='font-Jua h-30 mx-2 basis-1/2 rounded-xl bg-gradient-to-b from-blue-400 via-blue-500 to-indigo-700 p-3 text-4xl text-white'
               >
                 선택사항 테스트하기
               </button>
@@ -44,7 +44,7 @@ function App() {
                   toggleIsTesting();
                   setIsAll(true);
                 }}
-                className='h-30 mx-2 basis-1/2 rounded-xl border-4 border-sky-700 bg-sky-200 p-2 text-4xl font-bold text-sky-700'
+                className='font-Jua h-30 mx-2 basis-1/2 rounded-xl bg-gradient-to-b from-blue-400 via-blue-500 to-indigo-700 p-3 text-4xl text-white'
               >
                 전체 테스트하기
               </button>
