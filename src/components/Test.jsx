@@ -84,21 +84,23 @@ export const Test = ({ isAll }) => {
 
   return (
     <>
-      <div className='grid h-[80vh] w-full grid-cols-2 overflow-y-auto'>
-        {checkedItems.size === 0 && !isAll ? (
-          <h1>체크된 데이터가 없습니다.</h1>
-        ) : (
-          <>
-            {testItems.map((data) => (
-              <TestItem
-                key={data.id}
-                userAnswers={userAnswers}
-                questionData={data}
-              ></TestItem>
-            ))}
-          </>
-        )}
-      </div>
+      {checkedItems.size === 0 && !isAll ? (
+        <div className='flex h-[50vh] w-full items-center justify-center'>
+          <h1 className='text-4xl font-bold text-sky-700'>
+            체크된 데이터가 없습니다.
+          </h1>
+        </div>
+      ) : (
+        <div className='grid h-[80vh] w-full grid-cols-2 overflow-y-auto'>
+          {testItems.map((data) => (
+            <TestItem
+              key={data.id}
+              userAnswers={userAnswers}
+              questionData={data}
+            ></TestItem>
+          ))}
+        </div>
+      )}
       <button
         onClick={() => {
           if (userAnswers.includes(NaN)) {

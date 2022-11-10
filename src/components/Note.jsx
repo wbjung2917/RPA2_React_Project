@@ -17,7 +17,7 @@ export const Note = ({ note, name, words }) => {
   const [newNoteWords, setNewNoteWords] = useState([]);
   const newNoteName = useRef();
   const fileName = useRef();
-  const { checkedItems, saveNote, removeNote, addWord } = useWord();
+  const { data, checkedItems, saveNote, removeNote, addWord } = useWord();
 
   useEffect(() => {
     if (isChecked) {
@@ -132,7 +132,11 @@ export const Note = ({ note, name, words }) => {
           ></Word>
         ))}
         <button
-          onClick={() => addWord(note)}
+          onClick={() => {
+            note.words.filter((word) => word.id === 0).length !== 0
+              ? alert('빈 단어를 두 개이상 만들 수 없습니다.')
+              : addWord(note);
+          }}
           className='mx-2 w-20 shrink-0 rounded-xl border-2 border-sky-700 px-5 font-bold text-sky-700'
         >
           <PlusIcon />
